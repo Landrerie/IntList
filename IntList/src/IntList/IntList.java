@@ -11,10 +11,23 @@ import java.util.stream.IntStream;
 
 public class IntList {
 	
-	/**
-	 * @representationObject
-	 */	
-	private int[] intlist;
+
+		
+	private static class Node {	
+		private int value;
+		/**
+		 * @peerObject
+		 */
+		private Node next;
+		
+		private Node(int value, Node next) {
+			this.value = value;
+			this.next = next;
+		}
+	}
+	
+	private Node first;
+	private int length;
 	
 	/**
 	 * @inspects | this
@@ -22,7 +35,13 @@ public class IntList {
 	 * @post | result != null
 	 */
 	public int[] toIntArray(){
-		return intlist.clone();
+		int[] result = new int[length];
+		Node n = first;
+		for (int i = 0; i < result.length; i++) {
+			result[i] = n.value;
+			n = n.next;
+		}
+		return result;
 	}
 	
 	/**
@@ -30,7 +49,7 @@ public class IntList {
 	 * @post | result == toIntArray().length
 	 */
 	public int listlength() {
-		return intlist.length;
+		return length;
 	}
 	
 	/**
@@ -39,16 +58,18 @@ public class IntList {
 	 * @post | result == toIntArray()[index]
 	 */
 	public int intAt(int index) {
-		return intlist[index];
+		Node n = first;
+		for (int i = 0; i <= index; i++) {
+			n = n.next;
+		}
+		return n.value;
 	}
 	
 	/**
 	 * @mutates |
 	 * @post | listlength() == 0
 	 */
-	public IntList() {
-		this.intlist = new int[] {};
-	}
+	public IntList() {}
 	
 	
 	/**
