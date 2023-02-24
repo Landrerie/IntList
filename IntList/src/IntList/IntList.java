@@ -59,7 +59,7 @@ public class IntList {
 	 */
 	public int intAt(int index) {
 		Node n = first;
-		for (int i = 0; i <= index; i++) {
+		for (int i = 0; i < index; i++) {
 			n = n.next;
 		}
 		return n.value;
@@ -79,25 +79,38 @@ public class IntList {
 	 * @post | IntStream.range(0, listlength()-1).allMatch(i -> intAt(i) == old(this).intAt(i))
 	 */
 	public void addItem(int item) {
-		int[] newlist = new int[intlist.length + 1];
-		for(int i = 0;i < intlist.length;i++) {
-			newlist[i] = intlist[i];
+		length++;
+		if (first == null) {
+			first = new Node(item, null);
 		}
-		newlist[intlist.length] = item;
-		this.intlist = newlist;
+		else {
+			Node n = first;
+			while(n.next != null) {
+				n = n.next;
+			}
+			n.next = new Node(item, null);
+		}
+		
 	}
 	
 	/**
+	 * @pre | listlength() > 0
 	 * @mutates | this
 	 * @post | listlength() == old(listlength()) - 1
 	 * @post | IntStream.range(0, listlength()).allMatch(i -> intAt(i) == old(this).intAt(i))
 	 */
 	public void popItem() {
-		int[] newlist = new int[intlist.length - 1];
-		for(int i = 0;i < intlist.length - 1;i++) {
-			newlist[i] = intlist[i];
+		length--;
+		if (first.next == null) {
+			first = null;
 		}
-		this.intlist = newlist;
+		else {
+			Node n = first;
+			while(n.next.next != null) {
+				n = n.next;
+			}
+			n.next = null;
+		}
 	}
 	
 	
